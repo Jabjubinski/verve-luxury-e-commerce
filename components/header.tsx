@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { ShoppingBag, Heart, Menu, X, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import logo from "../app/favicon.ico";
 
 const NAV_DATA = [
   { label: "Home", href: "/" },
@@ -61,6 +63,12 @@ export function Header({ cartCount = 0, wishlistCount = 0 }) {
         <div className="max-w-360 mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex-1 lg:flex-none">
+            {/* <Image 
+          src={logo}
+          width={200}
+          height={200}
+          alt="black sugar"
+          /> */}
             <span className="text-2xl brand-logo tracking-wide">
               Black Sugar
             </span>
