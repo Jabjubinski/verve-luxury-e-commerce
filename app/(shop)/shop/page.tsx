@@ -3,7 +3,7 @@ import { ProductFilters } from "@/components/ProductFilters";
 import api from "@/lib/axios";
 
 interface Product {
-  id: number;
+  id: number | string;
   name: string;
   price: string;
   imgURL: string;
@@ -35,7 +35,7 @@ const ShopPage = async () => {
           <div className="flex-1">
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 lg:gap-x-8">
               {products.map((product) => (
-                <ProductCard key={product.id} {...product} id={product.id}/>
+                <ProductCard key={product.id} {...product} id={product.id} />
               ))}
             </div>
           </div>
