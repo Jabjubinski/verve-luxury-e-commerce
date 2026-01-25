@@ -70,13 +70,13 @@ export default async function Home() {
                 name={product.name}
                 price={product.price}
                 imgURL={product.imgURL}
+                id={product.id}
               />
             ))}
           </div>
         </div>
       </section>
 
-      {/* 4. Value Props (Trust) */}
       <section className="py-20 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 text-center text-white">
           <div>
@@ -117,6 +117,7 @@ function MoodCategoryCard({
   title: string;
   img: string | StaticImport;
   href: string;
+  id: string;
 }) {
   return (
     <Link href={href} className="group relative aspect-4/5 overflow-hidden">

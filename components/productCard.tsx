@@ -15,14 +15,13 @@ const oldLondonFont = localFont({
 
 const ProductCard = ({ id, name, price, imgURL }: ProductCardProps) => {
   return (
-    // 'group' allows us to animate child elements when the parent is hovered
     <div className="group flex flex-col gap-3">
       <Link href={`/shop/${id}`} className="block overflow-hidden bg-gray-100">
-        <div className="relative aspect-[3/4] w-full">
+        <div className="relative aspect-3/4 w-full">
           <Image
             alt={name}
             src={imgURL}
-            fill // Industry standard: fill the container and use object-cover
+            fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
