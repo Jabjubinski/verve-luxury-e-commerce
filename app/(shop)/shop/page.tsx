@@ -3,7 +3,7 @@ import { ProductFilters } from "@/components/ProductFilters";
 import api from "@/lib/axios";
 
 interface Product {
-  id: number | string;
+  id: any;
   name: string;
   price: string;
   imgURL: string;
