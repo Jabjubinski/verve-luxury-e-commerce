@@ -28,15 +28,12 @@ export function Footer() {
 
   return (
     <footer className="bg-[#121212] text-white border-t border-white/5 pt-20 pb-10">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+      <div className="max-w-360 mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           {/* Brand & Newsletter */}
           <div className="col-span-1 md:col-span-2 lg:col-span-1 space-y-6">
-            <Link
-              href="/"
-              className="text-2xl font-bold uppercase tracking-tighter italic"
-            >
-              Store.
+            <Link href="/" className="text-2xl tracking-widest brand-logo">
+              Black Sugar
             </Link>
             <p className="text-white/40 text-sm max-w-xs leading-relaxed">
               Join our mailing list for early access to new drops and editorial

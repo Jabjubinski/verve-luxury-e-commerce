@@ -6,17 +6,18 @@ interface ProductCardProps {
   name: string;
   price: string;
   imgURL: string;
+  id: string;
 }
 
 const oldLondonFont = localFont({
   src: "../public/fonts/Chomsky.otf",
 });
 
-const ProductCard = ({ name, price, imgURL }: ProductCardProps) => {
+const ProductCard = ({ id, name, price, imgURL }: ProductCardProps) => {
   return (
     // 'group' allows us to animate child elements when the parent is hovered
     <div className="group flex flex-col gap-3">
-      <Link href="/item/123" className="block overflow-hidden bg-gray-100">
+      <Link href={`/shop/${id}`} className="block overflow-hidden bg-gray-100">
         <div className="relative aspect-[3/4] w-full">
           <Image
             alt={name}

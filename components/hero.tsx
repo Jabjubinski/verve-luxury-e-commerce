@@ -3,13 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Slider } from "@/components/Slider";
+import slider1 from "../public/slider/slider1.jpg";
 
 const HERO_CONTENT = [
   {
     id: 1,
     title: "The Midnight Collection",
     subtitle: "Darkness defines the new aesthetic",
-    img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1600&auto=format&fit=crop",
+    img: slider1,
     cta: "Shop Now",
     link: "/shop/midnight",
   },
@@ -17,7 +18,7 @@ const HERO_CONTENT = [
     id: 2,
     title: "Earthy Neutrals",
     subtitle: "Sustainable style for the modern soul",
-    img: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1600&auto=format&fit=crop",
+    img: slider1,
     cta: "Explore Earthy",
     link: "/mood/earthy",
   },
@@ -25,14 +26,13 @@ const HERO_CONTENT = [
     id: 3,
     title: "Vampy Romantic",
     subtitle: "Lace, velvet, and the allure of the night",
-    img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop",
+    img: slider1,
     cta: "Discover Mood",
     link: "/mood/vampy",
   },
 ];
 
 const Hero = () => {
-  // Map our content into slide elements
   const slides = HERO_CONTENT.map((slide, index) => (
     <div
       key={slide.id}
@@ -43,7 +43,7 @@ const Hero = () => {
         fill
         alt={slide.title}
         quality={90}
-        priority={index === 0} // Only prioritize the first image for LCP
+        priority={index === 0}
         src={slide.img}
         sizes="100vw"
       />

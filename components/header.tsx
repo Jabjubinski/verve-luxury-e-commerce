@@ -52,13 +52,13 @@ export function Header({ cartCount = 0, wishlistCount = 0 }) {
 
   return (
     <>
-      <header className="sticky top-0 z-[100] w-full bg-[#191919] text-white border-b border-white/5">
+      <header className="sticky top-0 z-100 w-full bg-[#191919] text-white border-b border-white/5">
         {/* Top Announcement */}
         <div className="bg-white text-black py-1.5 text-center text-[11px] font-bold uppercase tracking-widest">
           Free Shipping on orders over $75
         </div>
 
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+        <div className="max-w-360 mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex-1 lg:flex-none">
             <span className="text-2xl brand-logo tracking-wide">
@@ -88,8 +88,8 @@ export function Header({ cartCount = 0, wishlistCount = 0 }) {
 
                 {/* Flyout Menu */}
                 {item.children && (
-                  <div className="absolute top-full left-0 w-full bg-[#191919] border-t border-white/5 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 ease-out z-[110]">
-                    <div className="max-w-[1440px] mx-auto px-10 py-12 grid grid-cols-4 gap-8">
+                  <div className="absolute top-full left-0 w-full bg-[#191919] border-t border-white/5 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 ease-out z-110">
+                    <div className="max-w-360 mx-auto px-10 py-12 grid grid-cols-4 gap-8">
                       <div className="col-span-1">
                         <h3 className="text-white text-lg font-semibold mb-4">
                           {item.label}

@@ -4,6 +4,11 @@ import api from "@/lib/axios";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import ornament from "../public/ornaments/ornament.png";
+import whimsigoth from "../public/clothes/whimsigoth.jpg";
+import vampy from "../public/clothes/vampy.jpg";
+import earthy from "../public/clothes/earthy.jpg";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 async function getTrendingProducts() {
   try {
@@ -22,23 +27,18 @@ export default async function Home() {
     <div className="flex flex-col bg-[#121212]">
       <Hero />
 
-      <section className="py-20 px-4 max-w-360 mx-auto w-full">
+      <section className="py-20 pt-10 px-4 max-w-360 mx-auto w-full">
+        <div className="h-full flex justify-center items-center pb-10">
+          <Image src={ornament} width={200} height={200} alt="ornament logo" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <MoodCategoryCard
             title="Whimsigoth"
-            img="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800"
+            img={whimsigoth}
             href="/mood/whimsigoth"
           />
-          <MoodCategoryCard
-            title="Vampy"
-            img="https://images.unsplash.com/photo-1537835067305-4b2cc6a0ed5a?q=80&w=800"
-            href="/mood/vampy"
-          />
-          <MoodCategoryCard
-            title="Earthy"
-            img="https://images.unsplash.com/photo-1523381235312-da59437a7f6a?q=80&w=800"
-            href="/mood/earthy"
-          />
+          <MoodCategoryCard title="Vampy" img={vampy} href="/mood/vampy" />
+          <MoodCategoryCard title="Earthy" img={earthy} href="/mood/earthy" />
         </div>
       </section>
 
@@ -115,7 +115,7 @@ function MoodCategoryCard({
   href,
 }: {
   title: string;
-  img: string;
+  img: string | StaticImport;
   href: string;
 }) {
   return (
