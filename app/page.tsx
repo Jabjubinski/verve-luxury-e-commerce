@@ -117,7 +117,6 @@ function MoodCategoryCard({
   title: string;
   img: string | StaticImport;
   href: string;
-  id: string;
 }) {
   return (
     <Link href={href} className="group relative aspect-4/5 overflow-hidden">
