@@ -6,7 +6,7 @@ interface ProductCardProps {
   name: string;
   price: string;
   imgURL: string;
-  id: string;
+  id: string | number;
 }
 
 const oldLondonFont = localFont({
