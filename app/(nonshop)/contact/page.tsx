@@ -6,7 +6,6 @@ import { Mail, MessageCircle, MapPin, Send } from "lucide-react";
 const ContactPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic for form submission
     console.log("Message sent");
   };
 
@@ -36,37 +35,46 @@ const ContactPage = () => {
           </div>
 
           <div className="space-y-8">
-            <ContactMethod
-              icon={<Mail className="w-5 h-5" />}
-              title="Email"
-              detail="support@BlackSugar.com"
-            />
-            <ContactMethod
-              icon={<MessageCircle className="w-5 h-5" />}
-              title="Instagram DM"
-              detail="@BlackSugar_official"
-            />
-            <ContactMethod
-              icon={<MapPin className="w-5 h-5" />}
-              title="Studio"
-              detail="Tbilisi, Georgia"
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-8">
+              <ContactMethod
+                icon={<Mail className="w-5 h-5" />}
+                title="Email"
+                detail="support@BlackSugar.com"
+              />
+              <ContactMethod
+                icon={<MessageCircle className="w-5 h-5" />}
+                title="Instagram DM"
+                detail="@blacksugar____"
+              />
+              <ContactMethod
+                icon={<MapPin className="w-5 h-5" />}
+                title="Studio"
+                detail="Tbilisi, Georgia"
+              />
+            </div>
+
+            {/* Responsive Map Container */}
+            <div className="relative w-full aspect-video lg:aspect-square max-h-100 border border-white/5 grayscale invert opacity-60 hover:opacity-100 transition-opacity duration-700">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2978.5196005215003!2d44.76764314087184!3d41.709305371380445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4044735fe24ad9d9%3A0xc55edc503597339d!2sBLACK%20SUGAR%20Vintage%20Gothic%20%26%20Coffee%20Shop!5e0!3m2!1sen!2sge!4v1769362841078!5m2!1sen!2sge"
+                className="absolute inset-0 w-full h-full"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
           </div>
         </div>
 
         {/* Right Side: Contact Form */}
-        <div className="bg-[#191919] p-8 md:p-12 border border-white/5">
+        <div className="bg-[#191919] p-8 md:p-12 border border-white/5 h-fit lg:sticky lg:top-32">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <InputGroup
-                label="Your Name"
-                type="text"
-                placeholder="ALEXANDER"
-              />
+              <InputGroup label="Your Name" type="text" placeholder="NAME" />
               <InputGroup
                 label="Email Address"
                 type="email"
-                placeholder="ALEX@EXAMPLE.COM"
+                placeholder="MAIL@EXAMPLE.COM"
               />
             </div>
 
@@ -97,7 +105,6 @@ const ContactPage = () => {
     </main>
   );
 };
-
 const ContactMethod = ({
   icon,
   title,
