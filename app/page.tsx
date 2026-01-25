@@ -1,65 +1,137 @@
+import Hero from "@/components/hero";
+import ProductCard from "@/components/productCard";
+import api from "@/lib/axios";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-export default function Home() {
+async function getTrendingProducts() {
+  try {
+    const res = await api.get("/products");
+
+    return res.data.slice(0, 4);
+  } catch (err) {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const trendingProducts = await getTrendingProducts();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col bg-[#121212]">
+      <Hero />
+
+      <section className="py-20 px-4 max-w-360 mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <MoodCategoryCard
+            title="Whimsigoth"
+            img="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800"
+            href="/mood/whimsigoth"
+          />
+          <MoodCategoryCard
+            title="Vampy"
+            img="https://images.unsplash.com/photo-1537835067305-4b2cc6a0ed5a?q=80&w=800"
+            href="/mood/vampy"
+          />
+          <MoodCategoryCard
+            title="Earthy"
+            img="https://images.unsplash.com/photo-1523381235312-da59437a7f6a?q=80&w=800"
+            href="/mood/earthy"
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* 3. Trending/New Arrivals */}
+      <section className="py-20 bg-[#191919]">
+        <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-10">
+            <div>
+              <h2 className="text-3xl font-bold uppercase tracking-tighter text-white">
+                New Arrivals
+              </h2>
+              <p className="text-white/40 text-sm mt-2">
+                The latest drops from our studio.
+              </p>
+            </div>
+            <Link
+              href="/shop"
+              className="group flex items-center gap-2 text-white text-xs uppercase tracking-widest font-bold"
+            >
+              View All{" "}
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+            {trendingProducts.map((product: any) => (
+              <ProductCard
+                key={product.id}
+                name={product.name}
+                price={product.price}
+                imgURL={product.imgURL}
+              />
+            ))}
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* 4. Value Props (Trust) */}
+      <section className="py-20 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 text-center text-white">
+          <div>
+            <h4 className="text-xs uppercase tracking-[0.3em] font-bold mb-3">
+              Sustainably Sourced
+            </h4>
+            <p className="text-white/40 text-sm leading-relaxed font-light">
+              Ethical production from fiber to finish.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-xs uppercase tracking-[0.3em] font-bold mb-3">
+              Global Shipping
+            </h4>
+            <p className="text-white/40 text-sm leading-relaxed font-light">
+              Fast, reliable delivery to over 50 countries.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-xs uppercase tracking-[0.3em] font-bold mb-3">
+              Curated Aesthetics
+            </h4>
+            <p className="text-white/40 text-sm leading-relaxed font-light">
+              Wear your mood, not just the trends.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
+  );
+}
+
+function MoodCategoryCard({
+  title,
+  img,
+  href,
+}: {
+  title: string;
+  img: string;
+  href: string;
+}) {
+  return (
+    <Link href={href} className="group relative aspect-4/5 overflow-hidden">
+      <Image
+        src={img}
+        alt={title}
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <h3 className="text-white text-2xl font-bold uppercase tracking-[0.2em]">
+          {title}
+        </h3>
+      </div>
+    </Link>
   );
 }
