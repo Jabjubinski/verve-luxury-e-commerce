@@ -32,13 +32,9 @@ export default async function Home() {
           <Image src={ornament} width={200} height={200} alt="ornament logo" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <MoodCategoryCard
-            title="Whimsigoth"
-            img={whimsigoth}
-            href="/mood/whimsigoth"
-          />
-          <MoodCategoryCard title="Vampy" img={vampy} href="/mood/vampy" />
-          <MoodCategoryCard title="Earthy" img={earthy} href="/mood/earthy" />
+          <MoodCategoryCard title="Whimsigoth" img={whimsigoth} href="/shop" />
+          <MoodCategoryCard title="Vampy" img={vampy} href="/shop" />
+          <MoodCategoryCard title="Earthy" img={earthy} href="/shop" />
         </div>
       </section>
 
