@@ -1,17 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import clsx from "clsx";
 
 const SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"];
-const AVAILABILITY = ["In Stock", "Pre-order", "Out of Stock"];
+const AVAILABILITY = ["In Stock", "Pre-order", "Archive"]; // 'Archive' sounds more luxury than 'Out of Stock'
 
 export function ProductFilters() {
-  const [openSection, setOpenSection] = useState<string | null>("price");
+  const [openSection, setOpenSection] = useState<string | null>("size");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedStock, setSelectedStock] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 500 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 2500 });
 
   const toggleSection = (section: string) => {
     setOpenSection(openSection === section ? null : section);
@@ -28,99 +28,14 @@ export function ProductFilters() {
   };
 
   return (
-    <div className="w-full lg:w-64 space-y-4 text-white">
-      {/* Price Range Filter */}
-      <FilterSection
-        title="Price Range"
-        isOpen={openSection === "price"}
-        onToggle={() => toggleSection("price")}
-      >
-        <div className="space-y-4 pt-2">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex-1">
-              <span className="text-[10px] text-white/40 uppercase">Min</span>
-              <input
-                type="number"
-                value={priceRange.min}
-                onChange={(e) =>
-                  setPriceRange({ ...priceRange, min: +e.target.value })
-                }
-                className="w-full bg-white/5 border border-white/10 p-2 text-sm focus:outline-none focus:border-white/30"
-              />
-            </div>
-            <div className="flex-1">
-              <span className="text-[10px] text-white/40 uppercase">Max</span>
-              <input
-                type="number"
-                value={priceRange.max}
-                onChange={(e) =>
-                  setPriceRange({ ...priceRange, max: +e.target.value })
-                }
-                className="w-full bg-white/5 border border-white/10 p-2 text-sm focus:outline-none focus:border-white/30"
-              />
-            </div>
-          </div>
-          <input
-            type="range"
-            min="0"
-            max="1000"
-            value={priceRange.max}
-            onChange={(e) =>
-              setPriceRange({ ...priceRange, max: +e.target.value })
-            }
-            className="w-full accent-white"
-          />
-        </div>
-      </FilterSection>
-
-      {/* Availability Filter (Multiple Select) */}
-      <FilterSection
-        title="Availability"
-        isOpen={openSection === "stock"}
-        onToggle={() => toggleSection("stock")}
-      >
-        <div className="flex flex-col gap-2 pt-2">
-          {AVAILABILITY.map((status) => (
-            <label
-              key={status}
-              className="flex items-center gap-3 group cursor-pointer text-sm"
-            >
-              <div
-                onClick={() =>
-                  handleToggle(selectedStock, setSelectedStock, status)
-                }
-                className={clsx(
-                  "w-4 h-4 border transition-colors flex items-center justify-center",
-                  selectedStock.includes(status)
-                    ? "bg-white border-white"
-                    : "border-white/20 group-hover:border-white/50",
-                )}
-              >
-                {selectedStock.includes(status) && (
-                  <div className="w-2 h-2 bg-black" />
-                )}
-              </div>
-              <span
-                className={
-                  selectedStock.includes(status)
-                    ? "text-white"
-                    : "text-white/60"
-                }
-              >
-                {status}
-              </span>
-            </label>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Size Filter (Grid Select) */}
+    <div className="w-full space-y-2 text-white">
+      {/* 1. Size Filter - Essential for Fashion */}
       <FilterSection
         title="Size"
         isOpen={openSection === "size"}
         onToggle={() => toggleSection("size")}
       >
-        <div className="grid grid-cols-4 gap-2 pt-2">
+        <div className="grid grid-cols-4 gap-1 pt-4">
           {SIZES.map((size) => (
             <button
               key={size}
@@ -128,10 +43,10 @@ export function ProductFilters() {
                 handleToggle(selectedSizes, setSelectedSizes, size)
               }
               className={clsx(
-                "h-10 border text-[10px] font-bold transition-all",
+                "h-12 border text-[10px] tracking-widest transition-all duration-500",
                 selectedSizes.includes(size)
                   ? "bg-white text-black border-white"
-                  : "bg-transparent text-white/60 border-white/10 hover:border-white/40",
+                  : "bg-transparent text-white/40 border-white/5 hover:border-white/20",
               )}
             >
               {size}
@@ -139,29 +54,110 @@ export function ProductFilters() {
           ))}
         </div>
       </FilterSection>
+
+      {/* 2. Price Range - Refined Slider */}
+      <FilterSection
+        title="Price"
+        isOpen={openSection === "price"}
+        onToggle={() => toggleSection("price")}
+      >
+        <div className="space-y-6 pt-6 pb-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] text-white/20 uppercase tracking-[0.2em]">
+              Limit
+            </span>
+            <span className="text-[11px] font-light tracking-widest text-white/80">
+              ${priceRange.max}
+            </span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="5000"
+            step="50"
+            value={priceRange.max}
+            onChange={(e) =>
+              setPriceRange({ ...priceRange, max: +e.target.value })
+            }
+            className="w-full h-[1px] bg-white/10 appearance-none cursor-pointer accent-white [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full"
+          />
+        </div>
+      </FilterSection>
+
+      {/* 3. Availability - Minimalist Check */}
+      <FilterSection
+        title="Status"
+        isOpen={openSection === "stock"}
+        onToggle={() => toggleSection("stock")}
+      >
+        <div className="flex flex-col gap-4 pt-6">
+          {AVAILABILITY.map((status) => (
+            <label
+              key={status}
+              className="flex items-center justify-between group cursor-pointer"
+              onClick={() =>
+                handleToggle(selectedStock, setSelectedStock, status)
+              }
+            >
+              <span
+                className={clsx(
+                  "text-[10px] uppercase tracking-[0.2em] transition-colors duration-300",
+                  selectedStock.includes(status)
+                    ? "text-white"
+                    : "text-white/30 group-hover:text-white/60",
+                )}
+              >
+                {status}
+              </span>
+              <div
+                className={clsx(
+                  "w-1 h-1 rounded-full transition-all duration-500",
+                  selectedStock.includes(status)
+                    ? "bg-white scale-150"
+                    : "bg-transparent",
+                )}
+              />
+            </label>
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* Clear Filters Link */}
+      {(selectedSizes.length > 0 || selectedStock.length > 0) && (
+        <button
+          onClick={() => {
+            setSelectedSizes([]);
+            setSelectedStock([]);
+          }}
+          className="pt-8 text-[9px] uppercase tracking-[0.4em] text-white/20 hover:text-white transition-colors"
+        >
+          Reset Filters
+        </button>
+      )}
     </div>
   );
 }
 
-// Sub-component for Accordion behavior
 function FilterSection({ title, isOpen, onToggle, children }: any) {
   return (
-    <div className="border-b border-white/5 pb-4">
+    <div className="border-b border-white/5 py-4">
       <button
         onClick={onToggle}
-        className="w-full flex justify-between items-center py-2 text-xs uppercase tracking-widest font-bold"
+        className="w-full flex justify-between items-center py-2 group"
       >
-        {title}
+        <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-white/60 group-hover:text-white transition-colors">
+          {title}
+        </span>
         {isOpen ? (
-          <ChevronUp className="w-4 h-4" />
+          <Minus className="w-3 h-3 text-white/20" />
         ) : (
-          <ChevronDown className="w-4 h-4" />
+          <Plus className="w-3 h-3 text-white/20" />
         )}
       </button>
       <div
         className={clsx(
-          "overflow-hidden transition-all duration-300",
-          isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0",
+          "overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]",
+          isOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0",
         )}
       >
         {children}

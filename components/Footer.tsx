@@ -1,68 +1,78 @@
 "use client";
 
 import Link from "next/link";
-import { Instagram, Twitter, Facebook, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
-    shop: [
+    collections: [
       { label: "New Arrivals", href: "/shop" },
-      { label: "Bestsellers", href: "/shop?sort=trending" },
-      { label: "Sale", href: "/sale" },
-      { label: "Gift Cards", href: "/gift-cards" },
+      { label: "The Edit", href: "/shop?filter=editorial" },
+      { label: "Archive", href: "/archive" },
+      { label: "Objects", href: "/objects" },
     ],
-    support: [
-      { label: "Shipping Policy", href: "/shipping" },
-      { label: "Returns & Exchanges", href: "/returns" },
-      { label: "Sizing Guide", href: "/sizing" },
-      { label: "Contact Us", href: "/contact" },
+    clientService: [
+      { label: "Shipping & Duties", href: "/shipping" },
+      { label: "Returns", href: "/returns" },
+      { label: "Personal Styling", href: "/styling" },
+      { label: "Contact", href: "/contact" },
     ],
-    legal: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Accessibility", href: "/accessibility" },
+    social: [
+      { label: "Instagram", href: "https://instagram.com" },
+      { label: "TikTok", href: "https://tiktok.com" },
+      { label: "Pinterest", href: "https://pinterest.com" },
     ],
   };
 
   return (
-    <footer className="bg-[#121212] text-white border-t border-white/5 pt-20 pb-10">
-      <div className="max-w-360 mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-          {/* Brand & Newsletter */}
-          <div className="col-span-1 md:col-span-2 lg:col-span-1 space-y-6">
-            <Link href="/" className="text-2xl tracking-widest brand-logo">
-              Black Sugar
-            </Link>
-            <p className="text-white/40 text-sm max-w-xs leading-relaxed">
-              Join our mailing list for early access to new drops and editorial
-              content.
-            </p>
-            <form className="relative max-w-sm group">
-              <input
-                type="email"
-                placeholder="EMAIL ADDRESS"
-                className="w-full bg-transparent border-b border-white/20 py-2 text-xs focus:outline-none focus:border-white transition-colors uppercase tracking-widest"
-              />
-              <button className="absolute right-0 top-1/2 -translate-y-1/2 text-white/50 group-hover:text-white transition-colors">
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
+    <footer className="bg-black text-[#F2F2F2] border-t border-white/10 pt-24 pb-12">
+      <div className="container mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
+          {/* Brand Philosophy & Newsletter */}
+          <div className="lg:col-span-5 space-y-12">
+            <div>
+              <h2 className="font-serif text-5xl tracking-tighter mb-6">
+                VERVE
+              </h2>
+              <p className="text-white/40 text-[11px] uppercase tracking-[0.3em] max-w-xs leading-loose">
+                Established 2026. Defining the vanguard of modern silhouette and
+                avant-garde craftsmanship.
+              </p>
+            </div>
+
+            <div className="max-w-md">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4">
+                Newsletter
+              </p>
+              <form className="relative group">
+                <input
+                  type="email"
+                  placeholder="ENTER YOUR EMAIL"
+                  className="w-full bg-transparent border-b border-white/20 py-4 text-[10px] focus:outline-none focus:border-white transition-all duration-500 uppercase tracking-widest"
+                />
+                <button className="absolute right-0 top-1/2 -translate-y-1/2 group-hover:translate-x-2 transition-transform duration-500">
+                  <span className="text-[10px] uppercase tracking-widest font-bold">
+                    Subscribe
+                  </span>
+                </button>
+              </form>
+            </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="grid grid-cols-2 gap-8 md:col-span-2 lg:col-span-3 lg:flex lg:justify-end lg:gap-24">
+          {/* Links Grid */}
+          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-12">
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6">
-                Shop
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-8">
+                Collections
               </h4>
               <ul className="space-y-4">
-                {footerLinks.shop.map((link) => (
+                {footerLinks.collections.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/60 hover:text-white transition-colors"
+                      className="text-[11px] uppercase tracking-widest hover:text-white/50 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -72,15 +82,15 @@ export function Footer() {
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6">
-                Support
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-8">
+                Client Service
               </h4>
               <ul className="space-y-4">
-                {footerLinks.support.map((link) => (
+                {footerLinks.clientService.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/60 hover:text-white transition-colors"
+                      className="text-[11px] uppercase tracking-widest hover:text-white/50 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -89,69 +99,58 @@ export function Footer() {
               </ul>
             </div>
 
-            <div className="hidden lg:block">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-6">
-                Connect
+            <div>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 mb-8">
+                Follow
               </h4>
-              <div className="flex gap-4">
-                <Link
-                  href="#"
-                  className="p-2 bg-white/5 hover:bg-white/10 transition-colors rounded-full"
-                >
-                  <Instagram className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="#"
-                  className="p-2 bg-white/5 hover:bg-white/10 transition-colors rounded-full"
-                >
-                  <Twitter className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="#"
-                  className="p-2 bg-white/5 hover:bg-white/10 transition-colors rounded-full"
-                >
-                  <Facebook className="w-4 h-4" />
-                </Link>
-              </div>
+              <ul className="space-y-4">
+                {footerLinks.social.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-[11px] uppercase tracking-widest hover:text-white/50 transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-wrap justify-center gap-6">
-            {footerLinks.legal.map((link) => (
+        {/* Legal & Local Time (A Luxury Touch) */}
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-end gap-8">
+          <div className="space-y-4">
+            <div className="flex gap-8">
               <Link
-                key={link.label}
-                href={link.href}
-                className="text-[10px] text-white/20 hover:text-white uppercase tracking-widest"
+                href="/privacy"
+                className="text-[9px] text-white/20 hover:text-white uppercase tracking-[0.2em]"
               >
-                {link.label}
+                Privacy Policy
               </Link>
-            ))}
+              <Link
+                href="/terms"
+                className="text-[9px] text-white/20 hover:text-white uppercase tracking-[0.2em]"
+              >
+                Terms of Service
+              </Link>
+            </div>
+            <p className="text-[9px] text-white/20 uppercase tracking-[0.2em]">
+              © {currentYear} VERVE ATELIER. ALL RIGHTS RESERVED.
+            </p>
           </div>
 
-          <p className="text-[10px] text-white/20 uppercase tracking-widest">
-            © {currentYear} Black Sugar. All Rights Reserved.
-          </p>
-
-          {/* Payment Icons Placeholder */}
-          <div className="flex gap-3 grayscale opacity-30 hover:opacity-60 transition-opacity">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
-              alt="Visa"
-              className="h-4"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-              alt="Mastercard"
-              className="h-4"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
-              alt="Paypal"
-              className="h-4"
-            />
+          {/* Large Vertical text for Brand name at bottom */}
+          <div className="hidden lg:block overflow-hidden">
+            <motion.h2
+              initial={{ y: "100%" }}
+              whileInView={{ y: 0 }}
+              transition={{ duration: 1, ease: "circOut" }}
+              className="font-serif text-9xl text-white/5 leading-none select-none pointer-events-none"
+            >
+              VERVE
+            </motion.h2>
           </div>
         </div>
       </div>

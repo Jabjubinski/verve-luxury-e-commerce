@@ -19,24 +19,68 @@ const ShopPage = async () => {
   }
 
   return (
-    <main className="min-h-screen bg-[#121212] py-12">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-white uppercase tracking-tighter mb-10">
-          Shop All
-        </h1>
+    <main className="min-h-screen bg-black text-white pt-32 pb-20">
+      <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
+        {/* Editorial Header */}
+        <header className="mb-16 flex flex-col md:flex-row justify-between items-end gap-8 border-b border-white/10 pb-12">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.5em] text-white/40 mb-4 block">
+              Archive 2026
+            </span>
+            <h1 className="font-serif text-5xl md:text-7xl tracking-tighter italic">
+              Shop All
+            </h1>
+          </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Filters Sidebar */}
-          <aside className="lg:sticky lg:top-24 h-fit">
-            <ProductFilters />
-          </aside>
+          <div className="flex items-center gap-12">
+            <div className="hidden md:flex items-center gap-4 text-[10px] uppercase tracking-widest text-white/40">
+              <span>Showing {products.length} Results</span>
+            </div>
 
-          {/* Product Grid */}
-          <div className="flex-1">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 lg:gap-x-8">
-              {products.map((product) => (
-                <ProductCard key={product.id} {...product} id={product.id} />
-              ))}
+            <div className="relative group">
+              <select className="bg-transparent border-none text-[10px] uppercase tracking-[0.2em] focus:outline-none appearance-none cursor-pointer pr-6">
+                <SortOptions />
+              </select>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+                <div className="w-2 h-[1px] bg-white/40" />
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="flex flex-col gap-12">
+          {/* Refine System - Now a streamlined top-section toggle or slim side-bar */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <aside className="lg:col-span-2">
+              <div className="lg:sticky lg:top-32 space-y-12">
+                <div>
+                  <h3 className="text-[11px] uppercase tracking-[0.3em] font-bold mb-8">
+                    Refine
+                  </h3>
+                  <ProductFilters />
+                </div>
+              </div>
+            </aside>
+
+            {/* Cinematic Product Grid */}
+            <div className="lg:col-span-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-20">
+                {products.length > 0 ? (
+                  products.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      {...product}
+                      id={product.id}
+                    />
+                  ))
+                ) : (
+                  <div className="col-span-full h-64 flex items-center justify-center border border-white/5">
+                    <p className="text-[10px] uppercase tracking-[0.5em] text-white/20">
+                      Collection Empty / Check Connection
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -47,21 +91,11 @@ const ShopPage = async () => {
 
 const SortOptions = () => (
   <>
-    <option selected className="text-black" value="featured">
-      Featured
-    </option>
-    <option className="text-black" value="Newest">
-      Newest
-    </option>
-    <option className="text-black" value="Best Selling">
-      Best Selling
-    </option>
-    <option className="text-black" value="Price: Low to High">
-      Price: Low to High
-    </option>
-    <option className="text-black" value="Price: High to Low">
-      Price: High to Low
-    </option>
+    <option value="featured">Featured</option>
+    <option value="newest">Latest Drop</option>
+    <option value="best-selling">High Demand</option>
+    <option value="price-asc">Price: Ascending</option>
+    <option value="price-desc">Price: Descending</option>
   </>
 );
 

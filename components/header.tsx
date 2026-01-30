@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { ShoppingBag, Heart, Menu, X, ChevronDown } from "lucide-react";
-import Image from "next/image";
-import logo from "../app/favicon.ico";
+import { ShoppingBag, Heart, Menu, X } from "lucide-react";
 
 const NAV_DATA = [
   { label: "Home", href: "/" },
@@ -14,109 +12,117 @@ const NAV_DATA = [
     label: "Shop",
     href: "/shop",
     children: [
-      { label: "Shop All", href: "/shop" },
-      { label: "Tops & Blouses", href: "/shop/tops" },
-      { label: "Dresses", href: "/shop/dresses" },
-      { label: "Skirts", href: "/shop/skirts" },
-      { label: "Trousers", href: "/shop/trousers" },
+      { label: "View All", href: "/shop" },
+      { label: "Outerwear", href: "/shop/coats" },
+      { label: "Tailoring", href: "/shop/trousers" },
       { label: "Knitwear", href: "/shop/knitwear" },
-      { label: "Cardigans", href: "/shop/cardigans" },
-      { label: "Coats & Jackets", href: "/shop/coats" },
-      { label: "Bags & Shoes", href: "/shop/accessories" },
+      { label: "Silks & Blouses", href: "/shop/tops" },
+      { label: "Dresses", href: "/shop/dresses" },
+      { label: "Accessories", href: "/shop/accessories" },
     ],
   },
   {
-    label: "Shop by Mood",
+    label: "Edits",
     href: "/mood",
     children: [
-      { label: "Earthy", href: "/mood/earthy" },
-      { label: "Whimsigoth", href: "/mood/whimsigoth" },
-      { label: "Vampy / Romantic Goth", href: "/mood/vampy" },
-      { label: "Grunge", href: "/mood/grunge" },
-      { label: "Midnight", href: "/mood/midnight" },
-      { label: "Cottage", href: "/mood/cottage" },
-      { label: "Summer", href: "/mood/summer" },
-      { label: "Special Occasion", href: "/mood/special-occasion" },
+      { label: "The Minimalist", href: "/mood/minimal" },
+      { label: "Avant-Garde", href: "/mood/avant-garde" },
+      { label: "Monochrome", href: "/mood/monochrome" },
+      { label: "Raw Textures", href: "/mood/raw" },
+      { label: "Architectural", href: "/mood/architectural" },
+      { label: "The Archive", href: "/mood/archive" },
+      { label: "Summer Essentials", href: "/mood/summer" },
     ],
   },
   { label: "Sale", href: "/sale", highlight: true },
-  { label: "Contact", href: "/contact" },
+  { label: "Journal", href: "/blog" },
 ];
 
 export function Header({ cartCount = 0, wishlistCount = 0 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
 
-  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
   return (
     <>
-      <header className="sticky top-0 z-100 w-full bg-[#191919] text-white border-b border-white/5">
-        {/* Top Announcement */}
-        <div className="bg-white text-black py-1.5 text-center text-[11px] font-bold uppercase tracking-widest">
-          Free Shipping on orders over $75
-        </div>
+      <div className="bg-white text-black py-2 text-center text-[9px] font-bold uppercase tracking-[0.3em] relative z-[60]">
+        Complimentary global shipping on orders over $300
+      </div>
 
-        <div className="max-w-360 mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex-1 lg:flex-none">
-            {/* <Image 
-          src={logo}
-          width={200}
-          height={200}
-          alt="black sugar"
-          /> */}
-            <span className="text-2xl brand-logo tracking-wide">
-              Black Sugar
+      <header
+        className={clsx(
+          "fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-in-out",
+          isScrolled
+            ? "bg-black/90 backdrop-blur-xl border-b border-white/5 py-4"
+            : "bg-transparent py-10",
+        )}
+      >
+        <div className="container mx-auto px-6 lg:px-12 flex items-center justify-between">
+          {/* Brand Logo */}
+          <Link href="/" className="z-50 relative">
+            <span className="text-3xl font-serif text-white tracking-tighter leading-none">
+              VERVE
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-10 h-full">
+          <nav className="hidden lg:flex items-center gap-10">
             {NAV_DATA.map((item) => (
-              <div key={item.label} className="group h-full flex items-center">
+              <div
+                key={item.label}
+                className="group relative"
+                onMouseEnter={() =>
+                  item.children && setActiveSubmenu(item.label)
+                }
+                onMouseLeave={() => setActiveSubmenu(null)}
+              >
                 <Link
                   href={item.href}
                   className={clsx(
-                    "text-[13px] uppercase tracking-wider transition-colors py-2 flex items-center gap-1.5",
+                    "text-[10px] uppercase tracking-[0.25em] transition-all duration-500 relative pb-1",
                     item.highlight
-                      ? "text-rose-500 font-bold"
-                      : "text-white/70 hover:text-white",
-                    pathname === item.href && "text-white",
+                      ? "text-red-800"
+                      : "text-white/60 hover:text-white",
                   )}
                 >
                   {item.label}
-                  {item.children && (
-                    <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
-                  )}
                 </Link>
 
-                {/* Flyout Menu */}
-                {item.children && (
-                  <div className="absolute top-full left-0 w-full bg-[#191919] border-t border-white/5 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 ease-out z-110">
-                    <div className="max-w-360 mx-auto px-10 py-12 grid grid-cols-4 gap-8">
-                      <div className="col-span-1">
-                        <h3 className="text-white text-lg font-semibold mb-4">
-                          {item.label}
-                        </h3>
-                        <p className="text-white/40 text-sm leading-relaxed">
-                          Explore our curated collection of{" "}
-                          {item.label.toLowerCase()} essentials.
-                        </p>
-                      </div>
-                      <div className="col-span-3 grid grid-cols-3 gap-y-3">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.href}
-                            className="text-white/60 hover:text-white text-sm transition-colors border-l border-transparent hover:border-rose-500 pl-4"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
+                {/* Mega Menu */}
+                {item.children && activeSubmenu === item.label && (
+                  <div className="absolute top-full -left-8 pt-6 w-[500px] animate-in fade-in slide-in-from-top-1 duration-500">
+                    <div className="bg-black border border-white/10 p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                      <div className="grid grid-cols-2 gap-10">
+                        <div>
+                          <h4 className="font-serif text-lg text-white mb-4 italic opacity-80">
+                            {item.label}
+                          </h4>
+                          <p className="text-white/40 text-[10px] leading-relaxed mb-6 uppercase tracking-widest">
+                            Refined selections for the discerning wardrobe.
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              className="text-white/50 hover:text-white text-[11px] uppercase tracking-widest transition-all duration-300 flex items-center gap-3 group/item"
+                            >
+                              <span className="w-0 group-hover/item:w-3 h-[1px] bg-white transition-all duration-500" />
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -125,91 +131,71 @@ export function Header({ cartCount = 0, wishlistCount = 0 }) {
             ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex-1 lg:flex-none flex justify-end items-center gap-3">
+          {/* Utility */}
+          <div className="flex items-center gap-8">
             <Link
               href="/wishlist"
-              className="p-2 hover:text-rose-500 transition-colors relative"
+              className="relative text-white/80 hover:text-white transition-colors"
             >
-              <Heart className="w-5 h-5" />
+              <Heart strokeWidth={1} className="w-5 h-5" />
               {wishlistCount > 0 && (
-                <span className="absolute top-1 right-1 bg-rose-500 text-[9px] text-white w-4 h-4 rounded-full flex items-center justify-center">
-                  {wishlistCount}
-                </span>
+                <span className="absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-white"></span>
               )}
             </Link>
+
             <Link
               href="/cart"
-              className="p-2 hover:text-white transition-colors relative"
+              className="flex items-center gap-3 text-white/80 hover:text-white transition-colors group"
             >
-              <ShoppingBag className="w-5 h-5" />
-              {cartCount > 0 && (
-                <span className="absolute top-1 right-1 bg-white text-black text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                  {cartCount}
-                </span>
-              )}
+              <span className="text-[9px] font-bold tracking-[0.2em] uppercase hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">
+                Cart ({cartCount})
+              </span>
+              <ShoppingBag strokeWidth={1} className="w-5 h-5" />
             </Link>
-            <button onClick={() => setIsOpen(true)} className="lg:hidden p-2">
-              <Menu className="w-6 h-6" />
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="lg:hidden text-white"
+            >
+              <Menu strokeWidth={1} className="w-6 h-6" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Menu */}
       <div
         className={clsx(
-          "fixed inset-0 z-[200] lg:hidden",
-          isOpen ? "visible" : "invisible",
+          "fixed inset-0 z-[100] bg-black transition-transform duration-[800ms] cubic-bezier(0.77, 0, 0.175, 1)",
+          isOpen ? "translate-y-0" : "-translate-y-full",
         )}
       >
-        <div
-          className={clsx(
-            "absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300",
-            isOpen ? "opacity-100" : "opacity-0",
-          )}
-          onClick={() => setIsOpen(false)}
-        />
-        <nav
-          className={clsx(
-            "relative w-[85%] max-w-sm h-full bg-[#121212] p-8 transition-transform duration-300",
-            isOpen ? "translate-x-0" : "-translate-x-full",
-          )}
-        >
-          <div className="flex justify-between items-center mb-10">
-            <span className="font-bold text-xl italic uppercase">Store.</span>
-            <button onClick={() => setIsOpen(false)}>
-              <X className="w-6 h-6" />
+        <div className="flex flex-col h-full p-10">
+          <div className="flex justify-between items-center">
+            <span className="font-serif text-2xl text-white">VERVE</span>
+            <button onClick={() => setIsOpen(false)} className="text-white">
+              <X strokeWidth={1} className="w-8 h-8" />
             </button>
           </div>
-          <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-160px)]">
-            {NAV_DATA.map((item) => (
-              <div key={item.label}>
-                <Link
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-xl font-medium block mb-3"
-                >
-                  {item.label}
-                </Link>
-                {item.children && (
-                  <div className="grid grid-cols-1 gap-2 pl-4 border-l border-white/10">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.label}
-                        href={child.href}
-                        onClick={() => setIsOpen(false)}
-                        className="text-white/50 text-sm py-1"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+
+          <div className="flex-1 flex flex-col justify-center gap-8">
+            {NAV_DATA.map((item, i) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="font-serif text-5xl text-white hover:italic transition-all duration-500"
+              >
+                {item.label}
+              </Link>
             ))}
           </div>
-        </nav>
+
+          <div className="border-t border-white/10 pt-8 flex justify-between items-center text-[9px] uppercase tracking-[0.4em] text-white/30">
+            <span>Paris / London / NYC</span>
+            <span>&copy; 2026 VERVE ATELIER</span>
+          </div>
+        </div>
       </div>
     </>
   );
